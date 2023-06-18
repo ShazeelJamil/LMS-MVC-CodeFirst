@@ -1,0 +1,74 @@
+﻿@{
+    Layout = "_LibrarianDashboard";
+}
+@model List<Borrow>
+
+<!--Filter-->
+<div class="btn btn-primary" style="margin-left: 20px;font-size: 16px;" data-bs-toggle="collapse" data-bs-target="#collapseExample">Filter&nbsp;&nbsp;<i class="fas fa-filter" style="font-size: 20px;"></i></div>
+<div class="container-fluid py-4 collapse" id="collapseExample">
+    <div class="row">
+        <div class="col-12">
+            <div class="card-body px-0 pb-2 bg-white " style="border-radius: 15px;">
+                <form action="/Librarian/Borrowers_List" method="POST">
+                <div class="col-10 col-lg-8 d-flex">
+                    <div class="input-group input-group-static my-3" style="margin-left: 20px;">
+                        <label>From (Date)</label>
+                        <input type="date" class="form-control" name="fromdate" required>
+                    </div>
+                    <div class="input-group input-group-static my-3" style="margin-left: 20px;">
+                        <label>To (Date)</label>
+                        <input type="date" class="form-control" name="todate" required>
+                    </div>
+                </div>
+                <input type="submit"  value="Search" class="btn btn-primary" style="margin-left:20px; width:250px"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                        <h6 class="text-white text-capitalize ps-3" id="month_name">Today Borrowwers</h6>
+                    </div>
+                </div>
+                <div class="card-body px-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center justify-content-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Student ID</th>
+                                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Book ID</th>
+                                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Issue Date</th>
+                                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Returned Date</th>
+                                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Is Returned</th>
+                                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Fine</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table_body">
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.StudentId</td>
+                                        <td class="ps-2">@item.BookId</td>
+                                        <td class="ps-2">@item.IssueDate</td>
+                                        <td class="ps-2">@item.ReturnDate</td>
+                                        <td class="ps-2">@item.IsReturn</td>
+                                        <td class="ps-2">@item.Fine</td>
+                                    </tr>
+                                    
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

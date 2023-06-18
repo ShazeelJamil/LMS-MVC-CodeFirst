@@ -1,0 +1,126 @@
+@{
+    Layout = "_LibrarianDashboard";
+    @model MyViewModel;
+}
+<div class="container-fluid px-2 px-md-4">
+    <div class="page-header min-height-300 border-radius-xl mt-4" style="background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');">
+      <span class="mask  bg-gradient-primary  opacity-6"></span>
+    </div>
+    <div class="card card-body mx-3 mx-md-4 mt-n6">
+      <div class="row gx-4 mb-2">
+        <div class="col-auto">
+          <div class="avatar avatar-xl position-relative">
+                    <img src="@Url.Content("~/media/images/"+Model.User.Image)" alt="profile_image" style="height:auto;" class=" w-100 border-radius-lg shadow-sm">
+          </div>
+        </div>
+        <div class="col-auto my-auto">
+          <div class="h-100">
+            <h4 class="mb-1">
+              @Model.User.Name
+            </h4>
+            <p class="mb-0 font-weight-normal text-sm">
+             Librarian
+            </p>
+          </div>
+        </div>
+       
+            <div class="row  ">
+                <div class="row ">
+                    <div class="col-12 col-xl-6">
+                        <div class="card card-plain h-100">
+                            <div class="card-body p-3">
+                                <ul class="list-group">
+                                    <li class="list-group-item border-0 px-0">
+                                        <div class="input-group input-group-static mb-4">
+                                            <label>Name</label>
+                                            <input type="text" value="@Model.User.Name" class="form-control">
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item border-0 px-0">
+                                        <div class="input-group input-group-static mb-4">
+                                            <label>CNIC</label>
+                                            <input type="text" value="@Model.Librarian.Cnic" class="form-control">
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item border-0 px-0">
+                                        <div class="input-group input-group-static mb-4">
+                                            <label>Date Of Joinning</label>
+                                            <input type="text" value="@Model.Librarian.DateOfJoining " class="form-control">
+                                        </div>
+                                    </li>
+
+
+                                    <li class="list-group-item border-0 px-0">
+                                        <div class="input-group input-group-static mb-4">
+                                            <label>Date of Birth</label>
+                                            <input type="text" value="@Model.User.DateOfBirth" class="form-control">
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item border-0 px-0">
+                                        <div class="input-group input-group-static mb-4">
+                                            <label>Contact</label>
+                                            <input type="number" class="form-control" value="@Model.User.Contact" maxlength="11" minlength="11">
+                                        </div>
+                                    </li>
+                              
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xl-6">
+                        <div class="card card-plain h-100">
+
+                            <div class="card-body p-3">
+                                <ul class="list-group">
+                                    
+
+                                    <li class="list-group-item border-0 px-0">
+                                        <div class="input-group input-group-static mb-4">
+                                            <label>Qualification</label>
+                                            <input type="text" value="@Model.Librarian.Qualification" class="form-control">
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item border-0 px-0">
+                                        <div class="input-group input-group-static mb-4">
+                                            <label>Sallary</label>
+                                            <input name="Number" id="" value="@Model.Librarian.Salary" class="form-control"></input>
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item border-0 px-0">
+                                        <div class="input-group input-group-static mb-4 mt-5">
+                                            <label>Work Shift: </label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" @(Model.Librarian.WorkShift == "morning" ? "checked" : " ") type="radio" name="session" id="mor" />
+                                                <label class="form-check-label" for="mor"> Morning </label>
+
+                                                <input class="form-check-input" @(Model.Librarian.WorkShift == "evening" ? "checked" : " ") type="radio" name="session" id="eve" />
+                                                <label class="form-check-label" for="eve"> Evening </label>
+                                            </div>
+
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item border-0 px-0">
+                                        <div class="input-group input-group-static mb-4 mt-4">
+                                            <label>Gender: </label>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" @(Model.Librarian.Gender == "male" ? "checked": " ") type="radio" name="gender" id="male" />
+                                                <label class="form-check-label" for="male"> Male </label>
+
+                                                <input class="form-check-input" @(Model.Librarian.Gender == "female" ? "checked" : " ") type="radio" name="gender" id="female" />
+                                                <label class="form-check-label" for="female"> Female </label>
+                                            </div>
+                                        </div>
+                                    </li>
+                                 
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+      </div>
+    </div>
+</div>

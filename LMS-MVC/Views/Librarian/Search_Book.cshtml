@@ -1,0 +1,86 @@
+﻿@{
+    Layout = "_LibrarianDashboard";
+}
+@model List<Book>
+
+<div class="container-fluid py-4" id="collapseExample">
+    <div class="row">
+        <div class="col-12">
+            <div class="card-body px-0 pb-2 bg-white " style="border-radius: 15px;">
+                <center>
+                    <div class="text-danger font-weight-bolder " s role="alert" id="show" style="display:none;">
+                        Book Not Founded !!!
+                    </div>
+                </center>
+
+                <form action="/Librarian/Search_Book" method="POST">
+
+                    <div class="col-10 col-lg-3 d-flex">
+                        <div class="input-group input-group-static my-3" style="margin-left: 20px;">
+                            <label>Book Name</label>
+                            <input type="text" id="nameofbook" name="nameofbook" class="form-control">
+                        </div>
+                    </div>
+                    <input type="submit" class="btn btn-primary" style="margin-left: 20px;" id="find" value="Search" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                        <h6 class="text-white text-capitalize ps-3" id="month_name">Book</h6>
+                    </div>
+                </div>
+                <div class="card-body px-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center justify-content-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ">Title</th>
+                                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">ISBN</th>
+                                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Author</th>
+                                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Edition</th>
+                                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Stock</th>
+                                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Avalaible</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table_body">
+                                @foreach (var book in Model)
+                                {
+                                    <tr>
+                                        <td>@book.Title</td>
+                                        <td class="ps-2">@book.Isbn</td>
+                                        <td class="ps-2">@book.Author</td>
+                                        <td class="ps-2">@book.Edition</td>
+                                        <td class="ps-2">@book.Stock</td>
+                                        <td class="ps-2">@book.Available</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    var z = "@ViewBag.status";
+    if (z == "NotFinded") {
+        document.getElementById("show").style.display = 'block';
+        setTimeout(() => {
+            document.getElementById("show").style.display = 'none';
+        }, 4000);
+    }
+
+</script>

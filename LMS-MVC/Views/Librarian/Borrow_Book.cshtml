@@ -1,0 +1,77 @@
+﻿@{
+    Layout = "_LibrarianDashboard";
+}
+<div class="container-fluid px-2 px-md-4">
+    <div class="card card-body mx-3 mx-md-4 ">
+        <h2 style="font-style:italic;">Borrow Book</h2>
+        <partial name="_partialErrorSuccess" />
+        <form action="/Librarian/Borrow_Book" method="post">
+        <div class="row" style="margin-top:20px;">
+            <div class="row">
+                <div class="col-12 ">
+                    <div class="card card-plain h-100">
+                        <div class="card-body p-3">
+                            <ul class="list-group">
+                                <li class="list-group-item border-0 px-0">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label>Student ID</label>
+                                        <input type="text" class="form-control" required name="stdid"/>
+                                    </div>
+                                </li>
+                                <li class="list-group-item border-0 px-0">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label>Book ISBN</label>
+                                        <input type="text" class="form-control" required name="isbn" />
+                                    </div>
+                                </li>
+                                <li class="list-group-item border-0 px-0">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label>Borrow Date</label>
+                                            <input type="date" class="form-control" required name="brwdate" value="@DateTime.Now.ToString("yyyy-MM-dd")" readonly/>
+                                    </div>
+                                </li>
+                                <li class="list-group-item border-0 px-0">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label>Return Date</label>
+                                            <input type="date" class="form-control" required name="rtndate" id="rtndate" />
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex" style="flex-direction:row-reverse;">
+                <input class="btn btn-success " style="width:200px;margin-right:10px;" type="submit" value="Borrow">
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+<script>
+    var connection = new signalR.HubConnectionBuilder().withUrl("/HandleHub").build();
+    var today = new Date();
+    var maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 13);
+    var maxDateFormatted = maxDate.toISOString().split('T')[0];
+
+    // Set the max attribute of the input field
+    document.getElementById('rtndate').setAttribute('max', maxDateFormatted);
+    var z = "@ViewBag.status";
+    if (z == "Done") {
+        document.getElementById("success_msg").style.display = 'block';
+        document.getElementById("show_success_msg").innerText = " Successfully Borrowed";
+        connection.start().then(function () {
+            connection.invoke("SendBorrowBook").catch(function (err) {
+                return console.error(err.toString());
+            });
+        });
+    }
+    else if (z == "undone") {
+        var message="@ViewBag.message";
+        document.getElementById("error_msg").style.display = 'block';
+        document.getElementById("show_error_msg").innerText = message;
+    }
+
+
+</script>

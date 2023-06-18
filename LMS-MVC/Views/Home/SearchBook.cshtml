@@ -1,0 +1,81 @@
+﻿@{
+    Layout = "_Generic";
+}
+  <!-- Start: Search Section -->
+        <section class="search-filters">
+            <div class="container">
+                <div class="filter-box" >
+                    <h2 style="color: black;"> Book Finder </h2>
+                        <div class="col-md-8 " style="margin-top:15px" >
+                              <input type="text" class="form-control"name="book" placeholder="Book Name ... " id="bookTitle" />
+                        </div>
+                        <div class="col-md-2" style="margin-top:15px;">
+                            <div class="form-group">
+                                <input class="form-control" type="submit" value="Search"onclick="searchBooks()">
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </section>
+        <!-- End: Search Section -->
+
+  <div id="searchResults" class=" container shadow " style="margin-top:30px">
+
+  </div>
+  <div id="bookDetails" class="container ">
+      </div>
+
+  <script>
+    function searchBooks() {
+      const bookTitle = document.getElementById('bookTitle').value;
+
+      // Create the URL to search for books
+      const url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${bookTitle}`;
+
+      // Make the API request
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (data.totalItems > 0) {
+            const books = data.items;
+
+            // Clear previous search results
+            document.getElementById('searchResults').innerHTML = "";
+
+            // Display the search results
+            const searchResults = document.getElementById('searchResults');
+            const ul = document.createElement('ul');
+            books.forEach((book, index) => {
+              const title = book.volumeInfo.title;
+              const authors = book.volumeInfo.authors.join(", ");
+
+              const li = document.createElement('li');
+              li.innerText = `${title} -  ${authors}`;
+              li.addEventListener('click', () => {
+                showBookDetails(book);
+              });
+              ul.appendChild(li);
+            });
+            searchResults.appendChild(ul);
+          } else {
+            document.getElementById('searchResults').innerText = "No books found.";
+          }
+        })
+        .catch(error => {
+          document.getElementById('searchResults').innerText = "An error occurred while fetching book details.";
+        });
+    }
+
+    function showBookDetails(book) {
+      const title = book.volumeInfo.title;
+      const authors = book.volumeInfo.authors.join(", ");
+      const description = book.volumeInfo.description;
+
+      const bookDetails = document.getElementById('bookDetails');
+      bookDetails.innerHTML = `
+        <h2><b>Title</b>: ${title}</h2>
+        <p><b>Authors</b>: ${authors}</p>
+        <p><b>Description</b>: ${description}</p>
+      `;
+    }
+  </script>

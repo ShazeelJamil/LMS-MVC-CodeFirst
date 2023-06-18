@@ -1,0 +1,98 @@
+﻿@{
+    Layout = "_LibrarianDashboard";
+}
+<style>
+    .custom-file-input {
+        visibility: hidden;
+        position: absolute;
+    }
+
+    .custom-file-label {
+        cursor: pointer;
+        padding: 5px 10px;
+        background-color: #e9ecef;
+        border-radius: 3px;
+        display: inline-block;
+        width: 200px;
+    }
+</style>
+<div class="container-fluid px-2 px-md-4">
+    <div class="card card-body mx-3 mx-md-4 ">
+        <form action="/Librarian/Add_EMagzine" method="POST" enctype="multipart/form-data">
+        <h2 style="font-style:italic;">Add E-Magzine</h2>
+            <partial name="_partialErrorSuccess" />
+        <div class="row" style="margin-top:20px;">
+            <div class="row">
+                <div class="col-12 col-xl-12">
+                    <div class="card card-plain h-100">
+
+                        <div class="card-body p-3">
+                            <ul class="list-group">
+                                <li class="list-group-item border-0 px-0">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label>Title</label>
+                                        <input type="text" class="form-control" name="title" required>
+                                    </div>
+                                </li>
+                                <li class="list-group-item border-0 px-0">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label>Writer/Company</label>
+                                        <input type="text" class="form-control" name="writer" required />
+                                    </div>
+                                </li>
+                                <li class="list-group-item border-0 px-0">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label>ISSN</label>
+                                        <input type="text" class="form-control" name="issn" required />
+                                    </div>
+                                </li>
+                                    <li class="list-group-item border-0 px-0">
+                                        <div class="input-group input-group-static " style="padding-top:25px">
+                                            <label for="fileInput" class="form-label mb-1">Select Pdf<span style="color:red;">*</span> </label>
+                                            <input type="file" id="fileInput" accept="application/pdf" class=" form-control mt-2" name="pdf" required>
+                                        </div>
+                                    </li>
+                                <li class="list-group-item border-0 px-0">
+                                    <div class="input-group input-group-static " style="padding-top:25px">
+                                        <label for="fileInput" class="mb-1">Select Cover Photo <span style="color:red;">*</span> </label>
+                                        <input type="file" id="fileInput" accept="image/*" class="form-control  mt-2" name="coverphoto" required>
+                                    </div>
+                                </li>
+                                
+                               
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex" style="flex-direction:row-reverse;">
+            <input class="btn btn-success " style="width:200px;margin-right:10px;" type="submit" value="Add">
+        </div>
+        </form>
+    </div>
+</div>
+</div>
+
+<script>
+    var z = "@ViewBag.status";
+    if (z == "success") {
+        document.getElementById("success_msg").style.display = 'block';
+        document.getElementById("show_success_msg").innerText = " Successfully Added ";
+        setTimeout(function(){
+        document.getElementById("success_msg").style.display = 'none';
+        },4000)
+        
+    }
+    else if (z == "error") {
+        document.getElementById("error_msg").style.display = 'block';
+        document.getElementById("show_error_msg").innerText = " Try Again !!!";
+           setTimeout(function(){
+        document.getElementById("error__msg").style.display = 'none';
+        },4000)
+    }
+</script>
+
+
+
+

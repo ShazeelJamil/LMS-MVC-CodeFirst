@@ -1,0 +1,135 @@
+﻿@{
+    Layout = "_LibrarianDashboard";
+}
+<style>
+    .custom-file-input {
+        visibility: hidden;
+        position: absolute;
+    }
+
+    .custom-file-label {
+        cursor: pointer;
+        padding: 5px 10px;
+        background-color: #e9ecef;
+        border-radius: 3px;
+        display: inline-block;
+        width:200px;
+    }
+</style>
+<div class="container-fluid px-2 px-md-4">
+    <div class="card card-body mx-3 mx-md-4 ">
+           <form action="/Librarian/Add_Book" method="POST" enctype="multipart/form-data">
+    <h2 style="font-style:italic;">Add Book</h2>
+        <partial name="_partialErrorSuccess" />
+            <div class="row" style="margin-top:20px;">
+                <div class="row">
+                    <div class="col-12 col-xl-6">
+                        <div class="card card-plain h-100">
+                        
+                            <div class="card-body p-3">
+                                <ul class="list-group">
+                                    <li class="list-group-item border-0 px-0">
+                                        <div class="input-group input-group-static mb-4">
+                                            <label>Title</label>
+                                            <input type="text" class="form-control" name="title"  required>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item border-0 px-0">
+                                        <div class="input-group input-group-static mb-4">
+                                            <label>Author</label>
+                                            <input type="text" class="form-control" name="author" required />
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item border-0 px-0">
+                                        <div class="input-group input-group-static mb-4">
+                                            <label>ISBN</label>
+                                            <input type="text" class="form-control" name="isbn" required>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item border-0 px-0">
+                                        <div class="input-group input-group-static mb-4">
+                                            <label>Edition</label>
+                                            <input type="number" class="form-control" min="1" name="edition" required>
+                                        </div>
+                                    </li>
+                                <li class="list-group-item border-0 px-0">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label>Price</label>
+                                            <input type="number" class="form-control" name="price" min="1" required>
+                                    </div>
+                                </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xl-6">
+                        <div class="card card-plain h-100">
+                          
+                            <div class="card-body p-3">
+                                <ul class="list-group">
+                                    <li class="list-group-item border-0 px-0">
+                                        <div class="input-group input-group-static mb-4">
+                                            <label>Publisher</label>
+                                            <input type="text" class="form-control" name="publisher" required>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item border-0 px-0">
+                                        <div class="input-group input-group-static mb-4">
+                                            <label>Stock</label>
+                                            <input type="number" class="form-control" name="stock" min="1" required />
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item border-0 px-0">
+                                        <div class="input-group input-group-static mb-4">
+                                            <label>Description</label>
+                                            <textarea id="" class="form-control" cols="30" name="description" rows="1" required></textarea>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item border-0 px-0">
+                                        <div class="input-group input-group-static " style="padding-top:25px">
+                                        <label for="fileInput" class="custom-file-label">Select Cover Photo <span style="color:red;">*</span> </label>
+                                            <input type="file" id="fileInput" accept="image/*" name="img" class="form-control custom-file-input" required>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex" style="flex-direction:row-reverse;">
+                <input class="btn btn-success "style="width:200px;margin-right:10px;" type="submit" value="Add">
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+
+<script>
+    var connection = new signalR.HubConnectionBuilder().withUrl("/HandleHub").build();
+  
+    var z = "@ViewBag.status";
+    if (z == "success") {
+        document.getElementById("success_msg").style.display = 'block';
+        document.getElementById("show_success_msg").innerText = " Successfully Added ";
+        connection.start().then(function () {
+            connection.invoke("SendAddBook").catch(function (err) {
+                return console.error(err.toString());
+            });
+        });
+
+        setTimeout(function () {
+            document.getElementById("success_msg").style.display = 'none';
+        }, 4000);
+
+    }
+    else if (z == "error") {
+        document.getElementById("error_msg").style.display = 'block';
+        document.getElementById("show_error_msg").innerText = " Try Again !!!";
+        setTimeout(function () {
+            document.getElementById("error__msg").style.display = 'none';
+        }, 4000);
+    }
+</script>
+

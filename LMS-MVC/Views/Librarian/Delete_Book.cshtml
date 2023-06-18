@@ -1,0 +1,97 @@
+﻿@{
+    Layout = "_LibrarianDashboard";
+}
+
+<div class="container-fluid py-4" id="collapseExample">
+    <div class="row">
+        <div class="col-12">
+            <div class="card-body px-0 pb-2 bg-white " style="border-radius: 15px;">
+                <div class="col-10 col-lg-3 d-flex">
+                    <div class="input-group input-group-static my-3" style="margin-left: 20px;">
+                        <label>Book ISBN</label>
+                        <input type="text" class="form-control" id="lb_id" >
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="button" style="margin-left: 20px;" id="search" >Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="modelclick" style="display:none;">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Librarian</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-danger" id="body_data">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cls_btn">Close</button>
+                <button type="button" class="btn btn-danger" id="conform">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#search').click(function () {
+        var idofuser = document.getElementById("lb_id").value;
+        $.ajax({
+            url: `/Librarian/Delete_Book?isbn=${idofuser}`,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+
+                console.log("skjaskjsakjsakjsak", data.Status);
+                if (data.Status == "Finded") {
+                    
+                    document.getElementById("body_data").innerText = " Are you Sure you want to delete Book " + data.name + "of MR. "+data.author;
+                    document.getElementById("modelclick").click();
+                }
+                else {
+                    document.getElementById("body_data").innerText = "Enter the Correct Libraian-ID !!! "
+                    document.getElementById("conform").style.display = 'none';
+                    document.getElementById("modelclick").click();
+                }
+
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        });
+    });
+    $('#clsbtn').click(function () {
+        document.getElementById("conform").style.display = 'block';
+    });
+    $('#conform').click(function () {
+        var isbnn = document.getElementById("lb_id").value;
+        $.ajax({
+            url: `/Librarian/Delete_Book?isbn=${isbnn}`,
+            type: 'DELETE',
+            dataType: 'json',
+            success: function (data) {
+                if (data.Status == "Deleted") {
+                    document.getElementById("body_data").innerText = " Successfully Deleted !!! ";
+                    document.getElementById("conform").style.display = 'none';
+                    document.getElementById("modelclick").click();
+                }
+                else {
+                    document.getElementById("body_data").innerText = " Libraian-ID Not Founded  !!! "
+                    document.getElementById("conform").style.display = 'none';
+                    document.getElementById("modelclick").click();
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        });
+    });
+
+</script>
